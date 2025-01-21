@@ -1,16 +1,15 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using UrlShortener.Infrastructure;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using UrlShortener.Infrastructure.Configuration;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using UrlShortener.Infrastructure.Services.JwtTokenService;
-using Microsoft.AspNetCore.Identity;
-using UrlShortener.Infrastructure.Repositories.Interfaces;
-using UrlShortener.Infrastructure.Repositories;
 using UrlShortener.Application.Interfaces;
-using UrlShortener.Application.Services;
 using UrlShortener.Application.PasswordHasher;
+using UrlShortener.Application.Services;
+using UrlShortener.Infrastructure;
+using UrlShortener.Infrastructure.Configuration;
+using UrlShortener.Infrastructure.Repositories;
+using UrlShortener.Infrastructure.Repositories.Interfaces;
+using UrlShortener.Infrastructure.Services.JwtTokenService;
 
 
 var builder = WebApplication.CreateBuilder(args);
