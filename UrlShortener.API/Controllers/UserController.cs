@@ -13,10 +13,7 @@ namespace UrlShortener.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] AuthDto authDto)
         {
-            var login = authDto.Login;
-            var password = authDto.Password;
-
-            await _userService.RegisterUserAsync(login, password);
+            await _userService.RegisterUserAsync(authDto.Login, authDto.Password);
 
             return Ok(new { Message = "Registration successful" });
         }
