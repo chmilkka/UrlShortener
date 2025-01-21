@@ -54,6 +54,9 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 
+builder.Services.AddScoped<IShortenedUrlService, ShortenedUrlService>();
+builder.Services.AddScoped<IShortenedUrlRepository, ShortenedUrlRepository>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
