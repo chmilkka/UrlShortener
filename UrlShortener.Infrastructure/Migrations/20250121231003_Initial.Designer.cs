@@ -12,7 +12,7 @@ using UrlShortener.Infrastructure;
 namespace UrlShortener.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250121121613_Initial")]
+    [Migration("20250121231003_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -81,18 +81,11 @@ namespace UrlShortener.Infrastructure.Migrations
 
             modelBuilder.Entity("UrlShortener.Domain.Entities.ShortUrl", b =>
                 {
-                    b.HasOne("UrlShortener.Domain.Entities.User", "User")
-                        .WithMany("ShortUrls")
+                    b.HasOne("UrlShortener.Domain.Entities.User", null)
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("UrlShortener.Domain.Entities.User", b =>
-                {
-                    b.Navigation("ShortUrls");
                 });
 #pragma warning restore 612, 618
         }

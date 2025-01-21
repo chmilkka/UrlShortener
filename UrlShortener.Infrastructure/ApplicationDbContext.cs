@@ -15,8 +15,8 @@ namespace UrlShortener.Infrastructure
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<ShortUrl>()
-                .HasOne(s => s.User)
-                .WithMany(u => u.ShortUrls)
+                .HasOne<User>()
+                .WithMany()
                 .HasForeignKey(s => s.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
