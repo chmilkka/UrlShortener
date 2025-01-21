@@ -7,17 +7,8 @@ using UrlShortener.Infrastructure.Repositories.Interfaces;
 
 namespace UrlShortener.Application.Services
 {
-    public class UserService : IUserService
+    public class UserService(IUserRepository _userRepository, IPasswordHasher _passwordHasher) : IUserService
     {
-        private readonly IUserRepository _userRepository;
-        private readonly IPasswordHasher _passwordHasher;
-
-        public UserService(IUserRepository userRepository, IPasswordHasher passwordHasher)
-        {
-            _userRepository = userRepository;
-            _passwordHasher = passwordHasher;
-        }
-
         public User AuthenticateUserAsync(string login, string password)
         {
             throw new NotImplementedException();

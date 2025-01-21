@@ -7,16 +7,8 @@ namespace UrlShortener.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UserController(IUserService _userService, IJwtTokenService _jwtTokenService) : ControllerBase
     {
-        private readonly IUserService _userService;
-        private readonly IJwtTokenService _jwtTokenService;
-
-        public UserController(IUserService userService, IJwtTokenService jwtTokenService)
-        {
-            _userService = userService;
-            _jwtTokenService = jwtTokenService;
-        }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] AuthDto authDto)

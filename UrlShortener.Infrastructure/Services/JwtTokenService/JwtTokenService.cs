@@ -7,15 +7,8 @@ using UrlShortener.Domain.Entities;
 
 namespace UrlShortener.Infrastructure.Services.JwtTokenService
 {
-    public class JwtTokenService : IJwtTokenService
+    public class JwtTokenService(IConfiguration _configuration) : IJwtTokenService
     {
-        private readonly IConfiguration _configuration;
-
-        public JwtTokenService(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
-
         public string GenerateToken(User user)
         {
             var claims = new[]
