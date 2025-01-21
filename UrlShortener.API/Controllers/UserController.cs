@@ -21,13 +21,13 @@ namespace UrlShortener.API.Controllers
             return Ok(new { Message = "Registration successful" });
         }
 
-        //[HttpPost("login")]
-        //public async Task<IActionResult> Login([FromBody] AuthDto authDto)
-        //{
-        //    var user = await _userService.AuthenticateUserAsync(authDto.Login, authDto.Password);
-        //    var token = _jwtTokenService.GenerateToken(user);
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] AuthDto authDto)
+        {
+            var user = await _userService.AuthenticateUserAsync(authDto.Login, authDto.Password);
+            var token = _jwtTokenService.GenerateToken(user);
 
-        //    return Ok(new { Token = token });
-        //}
+            return Ok(new { Token = token });
+        }
     }
 }
