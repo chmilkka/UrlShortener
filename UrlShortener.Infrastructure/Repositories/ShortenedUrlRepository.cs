@@ -20,13 +20,14 @@ namespace UrlShortener.Infrastructure.Repositories
                 CreatedAt = DateTime.UtcNow,
                 CreatedBy = user.Login,
             };
+
             try
             {
                 await dbContext.ShortUrls.AddAsync(shortUrl);
                 await dbContext.SaveChangesAsync();
                 return shortUrl;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw new DbUpdateException("Failed to save URL.");
             }   
@@ -57,6 +58,25 @@ namespace UrlShortener.Infrastructure.Repositories
             }
 
             return urlEntity.OriginalUrl;
+        }
+
+        public async Task<ShortUrl> GetUrlByIdAsync(Guid id)
+        {           
+            var url = await dbContext.ShortUrls.FirstOrDefaultAsync(u => u.Id == id);
+            if (url != null)
+            {
+                return url;
+            }
+            throw new KeyNotFoundException("URL with this ID was not found");
+        }
+
+        public async Task<bool> DeleteUrlAsync(Guid id)
+        {
+            var url = await GetUrlByIdAsync(id);
+           
+            dbContext.ShortUrls.Remove(url);
+            await dbContext.SaveChangesAsync();
+            return true;         
         }
     }
 }

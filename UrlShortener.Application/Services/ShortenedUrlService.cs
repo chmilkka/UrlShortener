@@ -10,6 +10,12 @@ namespace UrlShortener.Application.Services
             return await _shortUrlRepository.CreateShortUrlAsync(originalUrl, user);
         }
 
+        public async Task<bool> DeleteShortUrlAsync(Guid id)
+        {
+            var url = await _shortUrlRepository.GetUrlByIdAsync(id);
+            return await _shortUrlRepository.DeleteUrlAsync(id);
+        }
+
         public async Task<List<ShortUrl>> GetAllShortUrlsForAdminAsync()
         {
             return await _shortUrlRepository.GetAllShortUrlsAsync();
