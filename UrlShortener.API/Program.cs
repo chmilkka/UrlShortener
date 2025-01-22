@@ -1,10 +1,14 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using UrlShortener.Application.Interfaces;
 using UrlShortener.Application.PasswordHasher;
+using UrlShortener.Application.Policy;
+using UrlShortener.Application.Policy.Requirements;
+using UrlShortener.Application.Policy.RoleHandlers;
 using UrlShortener.Application.Services;
 using UrlShortener.Infrastructure;
 using UrlShortener.Infrastructure.Configuration;
@@ -21,7 +25,32 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please insert JWT with Bearer into field",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    new string[] { }
+                }
+            });
+});
 builder.Services.AddControllers();
 
 
@@ -64,40 +93,19 @@ builder.Services.AddAuthentication("OAuth")
         };
     });
 
+builder.Services.AddSingleton<IAuthorizationHandler, AdminRoleHandler>();
+builder.Services.AddSingleton<IAuthorizationHandler, UserRoleHandler>();
+builder.Services.AddAuthorization(opt =>
+{
+    opt.AddPolicy(Policies.User, p => p.Requirements.Add(new UserRoleRequirement()));
+    opt.AddPolicy(Policies.Admin, p => p.Requirements.Add(new AdminRoleRequirement()));
+});
+
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddHttpContextAccessor();
-
-builder.Services.AddSwaggerGen(c =>
-{
-    c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        In = ParameterLocation.Header,
-        Description = "Please insert JWT with Bearer into field",
-        Name = "Authorization",
-        Type = SecuritySchemeType.Http,
-        Scheme = "Bearer"
-    });
-
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement 
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            new string[] { }
-        }
-    });
-});
-
 builder.Services.AddScoped<IShortenedUrlService, ShortenedUrlService>();
 builder.Services.AddScoped<IShortenedUrlRepository, ShortenedUrlRepository>();
 
