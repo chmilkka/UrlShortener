@@ -1,6 +1,7 @@
 import { AppBar, Button, Toolbar, Typography } from "@mui/material"
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../stores/StoresManager";
+import { toast } from "react-toastify";
 
 function Header()
 {
@@ -17,6 +18,7 @@ function Header()
 
         const logout = () => {
             navigate('/logout');
+            toast.success("Success logout!")
         }
 
     return (

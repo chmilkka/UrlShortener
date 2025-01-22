@@ -3,7 +3,8 @@ import { observer } from "mobx-react-lite";
 import React from "react";
 import Header from "./components/Header";
 import AllRoutes from "./routes/AppRouter";
-import BasicModal from "./components/modals/ViewDetailsModal";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   
@@ -13,6 +14,12 @@ function App() {
       <React.StrictMode>
         <Header></Header>
         <AllRoutes/>
+        <ToastContainer 
+            position={"bottom-right"} 
+            limit={3} 
+            autoClose={5000} 
+            hideProgressBar={false}
+          />
       </React.StrictMode>
     </BrowserRouter>
   );

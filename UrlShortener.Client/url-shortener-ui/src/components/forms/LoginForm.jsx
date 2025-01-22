@@ -24,11 +24,11 @@ const LoginForm=()=>{
         {
              await userStore.login(user);
              redirectToUrls();
+             toast.success("Login success!")
         } 
         catch (error) 
         {
-            console.log(error)
-            toast.error(error.response.data.error)
+            toast.error("Incorrect login or password!")
         }
     };
 
