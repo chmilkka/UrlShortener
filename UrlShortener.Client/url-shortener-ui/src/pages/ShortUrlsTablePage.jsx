@@ -9,6 +9,8 @@ import {
   Paper,
   Button,
 } from "@mui/material";
+import BasicModal from "../components/modals/ViewDetailsModal";
+import ViewDetailsModal from "../components/modals/ViewDetailsModal";
 
 const ShortUrlsTablePage = () => {
     return (
@@ -30,16 +32,11 @@ const ShortUrlsTablePage = () => {
                 </a>
               </TableCell>
                 <TableCell align="center">
+                    <ViewDetailsModal>                      
+                    </ViewDetailsModal>       
                   <Button
                     variant="contained"
-                    color="primary"
-                    style={{ marginRight: "10px" }}
-                  >
-                    View Details
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="secondary"
+                    color="error"
                   >
                     Delete
                   </Button>
