@@ -4,6 +4,5 @@
     {
         public string OriginalUrl { get; set; }
         public Guid UserId { get; set; }
-        public string Login { get; set; }
     }
 }
