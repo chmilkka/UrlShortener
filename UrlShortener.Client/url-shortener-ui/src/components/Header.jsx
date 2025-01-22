@@ -1,8 +1,10 @@
 import { AppBar, Button, Toolbar, Typography } from "@mui/material"
 import { useNavigate } from "react-router-dom";
+import { useStore } from "../stores/StoresManager";
 
 function Header()
 {
+     const { userStore } = useStore();
      const navigate = useNavigate();
     
         const redirectToLogin = () => {
@@ -11,6 +13,10 @@ function Header()
 
         const redirectToAbout = () => {
             navigate("/about", { replace: true });
+        }
+
+        const logout = () => {
+            navigate('/logout');
         }
 
     return (
@@ -25,6 +31,13 @@ function Header()
             <Button color="inherit" onClick={redirectToLogin}>
             Login
             </Button>
+            {
+                userStore.isLoggedIn
+                &&
+                <>
+                <Button color="inherit" onClick={logout}>Log out</Button>
+                </>
+            }         
       </Toolbar>
     </AppBar>
     );
