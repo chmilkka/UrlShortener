@@ -5,7 +5,7 @@ using UrlShortener.Infrastructure.Repositories.Interfaces;
 
 namespace UrlShortener.Infrastructure.Repositories
 {
-    public class ShortenedUrlRepository(ApplicationDbContext dbContext, IHttpContextAccessor contextAccessor) : IShortenedUrlRepository
+    public class ShortenedUrlRepository(ApplicationDbContext dbContext) : IShortenedUrlRepository
     {
         public async Task<ShortUrl> CreateShortUrlAsync(string originalUrl, User user)
         {         
