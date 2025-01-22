@@ -40,5 +40,13 @@ namespace UrlShortener.API.Controllers
          
             return Redirect(originalUrl);
         }
+
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> DeleteUrl(Guid id)
+        {
+            var result = await _shortenedUrlService.DeleteShortUrlAsync(id);
+            return Ok();
+        }
     }
 }
