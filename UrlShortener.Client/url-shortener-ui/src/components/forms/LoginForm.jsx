@@ -1,8 +1,15 @@
 
 import React from 'react';
 import {  Button, Grid, Paper, TextField } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
-const LoginForm=()=>{  
+const LoginForm=()=>{ 
+    
+    const navigate = useNavigate();
+    
+        const redirectToRegister = () => {
+            navigate("/register", { replace: true });
+        }
     
     const paperStyle={padding :20,height:'70vh',width:280, margin:"20px auto"}
     const btnstyle={margin:'10px 0'}
@@ -29,7 +36,7 @@ const LoginForm=()=>{
                 /> 
                 <Button 
                 type='submit' 
-                color='primary' 
+                color='inherit' 
                 variant="contained" 
                 style={btnstyle} 
                 fullWidth
@@ -37,10 +44,11 @@ const LoginForm=()=>{
                     Log in</Button> 
                 <Button 
                 type='submit' 
-                color='primary' 
+                color='inherit' 
                 variant="contained" 
                 style={btnstyle} 
                 fullWidth
+                onClick={redirectToRegister}
                 >
                     Register
                 </Button>         
