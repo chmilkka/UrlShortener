@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UrlShortener.API.DTOs.Urls;
 using UrlShortener.Application.Interfaces;
@@ -11,6 +12,7 @@ namespace UrlShortener.API.Controllers
     [ApiController]
     public class ShortenedUrlController(IShortenedUrlService _shortenedUrlService, IUserRepository _userRepository) : ControllerBase
     {
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateShortUrl([FromBody] CreateUrlRequestDto request)
         {          
@@ -28,6 +30,15 @@ namespace UrlShortener.API.Controllers
             };
 
             return Ok(shortenedUrlResponce);
+        }
+
+        [HttpGet("{shortUrl}")]
+        public async Task<IActionResult> RedirectToOriginalUrl(string shortUrl)
+        {
+            var decodedUrl = Uri.UnescapeDataString(shortUrl);
+            var originalUrl = await _shortenedUrlService.GetOriginalUrlAsync(decodedUrl);
+         
+            return Redirect(originalUrl);
         }
     }
 }

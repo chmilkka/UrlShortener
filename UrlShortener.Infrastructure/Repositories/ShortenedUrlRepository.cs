@@ -42,8 +42,21 @@ namespace UrlShortener.Infrastructure.Repositories
         public string GenerateShortenedUrl()
         {
             var shortCode = Guid.NewGuid().ToString("N").Substring(0, 6); 
-            var baseUrl = "http://localhost:5000/"; 
+            var baseUrl = "https://localhost:5000/"; 
             return baseUrl + shortCode;
+        }
+
+        public async Task<string> GetOriginalUrlAsync(string shortUrl)
+        {
+            var urlEntity = await dbContext.ShortUrls
+                .FirstOrDefaultAsync(u => u.ShortenedUrl == shortUrl);
+
+            if (urlEntity == null)
+            {
+                throw new KeyNotFoundException("Shortened URL not found.");
+            }
+
+            return urlEntity.OriginalUrl;
         }
     }
 }

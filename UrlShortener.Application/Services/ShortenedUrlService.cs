@@ -14,5 +14,17 @@ namespace UrlShortener.Application.Services
         {
             return await _shortUrlRepository.GetAllShortUrlsAsync();
         }
+
+        public async Task<string> GetOriginalUrlAsync(string shortUrl)
+        {
+            try
+            {
+                return await _shortUrlRepository.GetOriginalUrlAsync(shortUrl);
+            }
+            catch(Exception)
+            {
+                throw new KeyNotFoundException("Shortened URL not found.");
+            }           
+        }
     }
 }

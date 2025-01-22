@@ -6,5 +6,6 @@ namespace UrlShortener.Infrastructure.Repositories.Interfaces
     {
         Task<ShortUrl> CreateShortUrlAsync(string originalUrl, User userId);
         Task<List<ShortUrl>> GetAllShortUrlsAsync();
+        Task<string> GetOriginalUrlAsync(string shortUrl);
     }
 }
