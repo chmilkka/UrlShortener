@@ -6,7 +6,8 @@ namespace UrlShortener.Application.Interfaces
     {
         Task<ShortUrl> CreateShortUrlAsync(string originalUrl, User user);
         Task<bool> DeleteShortUrlAsync(Guid id);
-        Task<List<ShortUrl>> GetAllShortUrlsForAdminAsync();
+        Task<IEnumerable<ShortUrl>> GetAllUrlsForAdminAsync();
+        Task<IEnumerable<ShortUrl>> GetAllUrlsAsync();
         Task<string> GetOriginalUrlAsync(string shortUrl);
     }
 }

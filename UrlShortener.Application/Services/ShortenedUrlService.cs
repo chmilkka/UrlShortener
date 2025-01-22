@@ -16,9 +16,14 @@ namespace UrlShortener.Application.Services
             return await _shortUrlRepository.DeleteUrlAsync(id);
         }
 
-        public async Task<List<ShortUrl>> GetAllShortUrlsForAdminAsync()
+        public async Task<IEnumerable<ShortUrl>> GetAllUrlsForAdminAsync()
         {
-            return await _shortUrlRepository.GetAllShortUrlsAsync();
+            return await _shortUrlRepository.GetFullUrlsDataAsync();
+        }
+
+        public async Task<IEnumerable<ShortUrl>> GetAllUrlsAsync()
+        {
+            return await _shortUrlRepository.GetRestrictedUrlsDataAsync();
         }
 
         public async Task<string> GetOriginalUrlAsync(string shortUrl)

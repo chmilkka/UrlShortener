@@ -33,18 +33,31 @@ namespace UrlShortener.Infrastructure.Repositories
             }   
         }
 
-        public async Task<List<ShortUrl>> GetAllShortUrlsAsync()
+        public async Task<bool> DeleteUrlAsync(Guid id)
+        {
+            var url = await GetUrlByIdAsync(id);
+
+            dbContext.ShortUrls.Remove(url);
+            await dbContext.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<IEnumerable<ShortUrl>> GetFullUrlsDataAsync()
         {
             return await dbContext.ShortUrls
                 .OrderByDescending(url => url.CreatedAt)
                 .ToListAsync();
         }
 
-        public string GenerateShortenedUrl()
+        public async Task<IEnumerable<ShortUrl>> GetRestrictedUrlsDataAsync()
         {
-            var shortCode = Guid.NewGuid().ToString("N").Substring(0, 6); 
-            var baseUrl = "https://localhost:5000/"; 
-            return baseUrl + shortCode;
+            return await dbContext.ShortUrls
+                .Select(url => new ShortUrl
+                {
+                    ShortenedUrl = url.ShortenedUrl,
+                    OriginalUrl = url.OriginalUrl
+                })
+                .ToListAsync();
         }
 
         public async Task<string> GetOriginalUrlAsync(string shortUrl)
@@ -70,13 +83,11 @@ namespace UrlShortener.Infrastructure.Repositories
             throw new KeyNotFoundException("URL with this ID was not found");
         }
 
-        public async Task<bool> DeleteUrlAsync(Guid id)
+        private string GenerateShortenedUrl()
         {
-            var url = await GetUrlByIdAsync(id);
-           
-            dbContext.ShortUrls.Remove(url);
-            await dbContext.SaveChangesAsync();
-            return true;         
+            var shortCode = Guid.NewGuid().ToString("N").Substring(0, 6);
+            var baseUrl = "https://localhost:5000/";
+            return baseUrl + shortCode;
         }
     }
 }

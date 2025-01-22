@@ -48,5 +48,26 @@ namespace UrlShortener.API.Controllers
             var result = await _shortenedUrlService.DeleteShortUrlAsync(id);
             return Ok();
         }
+
+        [HttpGet("urls")]
+        public async Task<IActionResult> GetAllUrls()
+        {
+            var urls = await _shortenedUrlService.GetAllUrlsAsync();
+
+            var restrictedUrlsResponce = urls.Select(url => new RestrictedUrlDto
+            {
+                ShortenedUrl = url.ShortenedUrl,
+                OriginalUrl = url.OriginalUrl
+            });
+            return Ok(restrictedUrlsResponce);
+        }
+
+        [HttpGet("admin/urls")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetUrlsWithDetailsForAdmins()
+        {
+            var urls = await _shortenedUrlService.GetAllUrlsForAdminAsync();
+            return Ok(urls);
+        }
     }
 }
