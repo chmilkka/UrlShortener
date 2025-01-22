@@ -1,7 +1,13 @@
 import { AppBar, Button, Toolbar, Typography } from "@mui/material"
+import { useNavigate } from "react-router-dom";
 
 function Header()
 {
+     const navigate = useNavigate();
+    
+        const redirectToLogin = () => {
+            navigate("/login", { replace: true });
+        }
     return (
     <AppBar color= "inherit" position="sticky">
         <Toolbar>
@@ -9,6 +15,9 @@ function Header()
             URL Shortener
             </Typography>
             <Button color="inherit">
+            About
+            </Button>
+            <Button color="inherit" onClick={redirectToLogin}>
             Login
             </Button>
       </Toolbar>
