@@ -8,13 +8,18 @@ function Header()
         const redirectToLogin = () => {
             navigate("/login", { replace: true });
         }
+
+        const redirectToAbout = () => {
+            navigate("/about", { replace: true });
+        }
+
     return (
     <AppBar color= "inherit" position="sticky">
         <Toolbar>
             <Typography variant="h6" sx={{ flexGrow: 1 }}>
             URL Shortener
             </Typography>
-            <Button color="inherit">
+            <Button color="inherit" onClick={redirectToAbout}>
             About
             </Button>
             <Button color="inherit" onClick={redirectToLogin}>
