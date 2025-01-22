@@ -43,6 +43,11 @@ namespace UrlShortener.API.Middlewares
                 message = exception.Message;
                 status = HttpStatusCode.BadRequest;
             }
+            else if (exceptionType == typeof(NotAuthorizedException))
+            {
+                message = exception.Message;
+                status = HttpStatusCode.Forbidden;
+            }
             else
             {
                 message = exception.Message;
