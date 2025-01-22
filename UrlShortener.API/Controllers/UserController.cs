@@ -5,7 +5,7 @@ using UrlShortener.Infrastructure.Services.JwtTokenService;
 
 namespace UrlShortener.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/user")]
     [ApiController]
     public class UserController(IUserService _userService, IJwtTokenService _jwtTokenService) : ControllerBase
     {
@@ -24,7 +24,7 @@ namespace UrlShortener.API.Controllers
             var user = await _userService.AuthenticateUserAsync(authDto.Login, authDto.Password);
             var token = _jwtTokenService.GenerateToken(user);
 
-            return Ok(new { Token = token });
+            return Ok(token);
         }
     }
 }

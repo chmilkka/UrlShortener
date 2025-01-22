@@ -8,7 +8,7 @@ using UrlShortener.Infrastructure.Repositories.Interfaces;
 
 namespace UrlShortener.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/urls")]
     [ApiController]
     public class ShortenedUrlController(IShortenedUrlService _shortenedUrlService, IUserRepository _userRepository) : ControllerBase
     {
@@ -56,7 +56,7 @@ namespace UrlShortener.API.Controllers
             return Ok();
         }
 
-        [HttpGet("urls")]
+        [HttpGet("getUrls")]
         public async Task<IActionResult> GetAllUrls()
         {
             var urls = await _shortenedUrlService.GetAllUrlsAsync();
@@ -69,7 +69,7 @@ namespace UrlShortener.API.Controllers
             return Ok(restrictedUrlsResponce);
         }
 
-        [HttpGet("admin/urls")]
+        [HttpGet("admin/getUrls")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetUrlsWithDetailsForAdmins()
         {
