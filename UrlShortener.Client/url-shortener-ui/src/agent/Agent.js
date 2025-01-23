@@ -39,8 +39,13 @@ const Auth = {
     register: (body) => requests.post("/user/register", body),
 }
 
+const Urls = {
+    createShortUrl: (body) => requests.post("/urls/createUrl", body)
+}
+
 export const agent = {
-    Auth
+    Auth,
+    Urls
 };
 
 function checkStatusCode (error) {
