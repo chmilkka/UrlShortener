@@ -8,7 +8,12 @@ namespace UrlShortener.Infrastructure.Repositories
     public class ShortenedUrlRepository(ApplicationDbContext dbContext) : IShortenedUrlRepository
     {
         public async Task<ShortUrl> CreateShortUrlAsync(string originalUrl, User user)
-        {         
+        {
+            var existingUrl = await dbContext.ShortUrls.FirstOrDefaultAsync(u => u.OriginalUrl == originalUrl);
+            if (existingUrl != null)
+            {
+                throw new InvalidOperationException("A shortened URL for this original URL already exists.");
+            }
             var shortenedUrl = GenerateShortenedUrl();
 
             var shortUrl = new ShortUrl
