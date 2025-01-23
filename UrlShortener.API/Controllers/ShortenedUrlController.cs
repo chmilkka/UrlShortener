@@ -13,7 +13,7 @@ namespace UrlShortener.API.Controllers
     public class ShortenedUrlController(IShortenedUrlService _shortenedUrlService, IUserRepository _userRepository) : ControllerBase
     {
         [Authorize]
-        [HttpPost]
+        [HttpPost("createUrl")]
         public async Task<IActionResult> CreateShortUrl([FromBody] CreateUrlRequestDto request)
         {          
             var user = await _userRepository.GetUserByIdAsync(request.UserId);          
